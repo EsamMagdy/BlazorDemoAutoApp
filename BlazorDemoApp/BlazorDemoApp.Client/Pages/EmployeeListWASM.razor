@@ -1,0 +1,32 @@
+﻿@page "/employees/wasm"
+@using BlazorApp.Models
+
+@rendermode RenderMode.InteractiveWebAssembly
+
+<h1 class="text-center mt-5 display-3">Popular Movies</h1>
+<div class="container-xl">
+    @if (Employees is null)
+    {
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-3 justify-content-center justify-content-xl-start">
+
+         <span>No Employees</span>
+
+        </div>
+    }
+    else
+    {
+
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-3 justify-content-center justify-content-xl-start">
+
+            @foreach (var movie in Employees)
+            {
+                <div class="col" @key="movie.Id">
+                    <EmployeeCard Employee="movie" ModalId="movie-modal" OnBtnClick="GetMovieDetails" />
+                </div>
+            }
+
+        </div>
+
+    }
+</div>
+
