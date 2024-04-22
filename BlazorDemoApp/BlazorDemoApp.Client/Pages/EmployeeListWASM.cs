@@ -15,7 +15,6 @@ namespace BlazorDemoApp.Client.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            //await Task.Delay(3000);
             Employees = await EmployeeService.GetAll();
         }
 

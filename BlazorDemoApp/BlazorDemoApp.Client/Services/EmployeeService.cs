@@ -1,4 +1,5 @@
 ﻿using BlazorApp.Models;
+using System.Net.Http.Json;
 using System.Text.Json;
 
 namespace BlazorDemoApp.Client.Services
@@ -20,10 +21,7 @@ namespace BlazorDemoApp.Client.Services
         {
             try
             {
-                var list = await _httpClientFactory.GetStreamAsync($"employees");
-
-                var employees = await JsonSerializer.DeserializeAsync<IEnumerable<Employee>>
-                    (list, _options);
+                var employees = await _httpClientFactory.GetFromJsonAsync<IEnumerable<Employee>>($"employees", _options);
 
                 return employees;
             }
@@ -32,17 +30,14 @@ namespace BlazorDemoApp.Client.Services
 
                 throw;
             }
-        
+
         }
 
         public async Task<Employee> GetById(int id)
         {
             try
             {
-                var ss = await _httpClientFactory.GetStreamAsync($"employees/{id}");
-
-                var employee = await JsonSerializer.DeserializeAsync<Employee>
-                    (ss, _options);
+                var employee = await _httpClientFactory.GetFromJsonAsync<Employee>($"employees/{id}", _options);
 
                 return employee;
             }
@@ -51,7 +46,7 @@ namespace BlazorDemoApp.Client.Services
 
                 throw;
             }
-          
+
         }
     }
 }
