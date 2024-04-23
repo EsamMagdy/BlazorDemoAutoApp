@@ -1,17 +1,49 @@
 ﻿@using BlazorApp.Models
+@using System.Text.Json
+@using BlazorDemoApp.Client.Services
 
 @page "/pagetest"
 
 @rendermode RenderMode.InteractiveWebAssembly
 
-<button @onclick="UpdateMessage">Click me</button> @message
+@inject HttpClient HttpClient
+
+@inject IEmployeeService EmployeeService
+
+<div class="row mb-2">
+
+    <div class="col-6">
+
+    <button class="btn btn-primary" @onclick="UpdateMessage">Click me</button> @message
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-6">
+
+        <button class="btn btn-primary" @onclick="async () => await GetEmployeeById(1)">Show Employee</button>
+    </div>
+
+    <div class="col-6">
+
+    <span>@Employee?.Name</span>
+    </div>
+</div>
+
 
 @code {
+    private Employee Employee { get; set; }
 
     private string message = "Not updated yet.";
 
     private void UpdateMessage()
     {
         message = "Somebody updated me!";
+    }
+
+    private async Task GetEmployeeById(int employeeId)
+    {
+        // Employee = await HttpClient.GetFromJsonAsync<Employee>($"employees/{employeeId}", new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+        Employee = await EmployeeService.GetById(employeeId);
     }
 }
